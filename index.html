@@ -2,122 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For My Risha ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
-    
     <style>
-        :root {
-            --primary-pink: #ff4d6d;
-            --soft-pink: #fff0f3;
-        }
-
-        body {
-            background-color: var(--soft-pink);
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden; /* Important so she can't scroll to find the No button */
-        }
-
-        #main-card {
-            background: white;
-            width: 85%;
-            max-width: 350px;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-            z-index: 10;
-        }
-
-        .photo-grid img {
-            width: 70px; height: 70px;
-            object-fit: cover; border-radius: 10px;
-            margin: 5px; border: 2px solid var(--primary-pink);
-        }
-
-        h1 { font-family: 'Dancing Script', cursive; color: var(--primary-pink); margin: 10px 0; }
-
-        .memory-lane {
-            background: #fff9fa; padding: 12px; border-radius: 15px;
-            font-size: 0.85rem; border-left: 4px solid var(--primary-pink);
-            margin: 15px 0; text-align: left;
-        }
-
-        .btn-container {
-            display: flex; justify-content: center; align-items: center;
-            gap: 15px; margin-top: 20px; min-height: 50px;
-        }
-
-        button {
-            padding: 12px 25px; border: none; border-radius: 25px;
-            font-size: 1rem; cursor: pointer; transition: 0.2s;
-        }
-
-        #yesBtn { background-color: var(--primary-pink); color: white; }
-        
-        #noBtn { 
-            background-color: #fb6f92; color: white; 
-            position: absolute; /* Needed for jumping */
-        }
-
-        /* Sparkle Animation */
-        .sparkle-text {
-            animation: sparkle-effect 1.5s infinite;
-            background: linear-gradient(90deg, #ff4d6d, #ff85a1, #ff4d6d);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: bold;
-        }
-
-        @keyframes sparkle-effect {
-            to { background-position: 200% center; }
-        }
-
-        /* Floating Hearts Animation */
-        .floating-heart {
-            position: fixed; bottom: -10px;
-            animation: floatUp linear forwards;
-            z-index: 100; pointer-events: none;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-        }
+        :root { --primary: #ff4d6d; --bg: #fff0f3; }
+        body { background-color: var(--bg); font-family: 'Poppins', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; touch-action: manipulation; }
+        #main-card { background: white; width: 85%; max-width: 350px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; z-index: 10; position: relative; }
+        .photo-grid { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        .photo-grid img { width: 75px; height: 75px; object-fit: cover; border-radius: 12px; border: 2px solid var(--primary); }
+        h1 { font-family: 'Dancing Script', cursive; color: var(--primary); margin: 10px 0; font-size: 2.2rem; }
+        .memory-lane { background: #fff9fa; padding: 12px; border-radius: 15px; font-size: 0.85rem; border-left: 4px solid var(--primary); text-align: left; margin: 15px 0; line-height: 1.4; }
+        .btn-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px; min-height: 60px; position: relative; }
+        button { padding: 12px 28px; border: none; border-radius: 25px; font-size: 1rem; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        #yesBtn { background-color: var(--primary); color: white; z-index: 10; }
+        #noBtn { background-color: #fb6f92; color: white; position: absolute; z-index: 100; }
+        .sparkle-text { animation: glow 1.5s infinite alternate; font-size: 1.8rem !important; }
+        @keyframes glow { from { text-shadow: 0 0 5px #fff, 0 0 10px var(--primary); } to { text-shadow: 0 0 20px #fff, 0 0 30px #ff85a1; } }
+        .floating-heart { position: fixed; bottom: -10px; animation: floatUp linear forwards; z-index: 1000; pointer-events: none; }
+        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; } }
     </style>
 </head>
 <body>
-
     <div id="main-card">
         <div class="photo-grid">
-            <img src="c:\Users\Subham Bag\OneDrive\Desktop\New folder (2)\photo1.jpg" alt="Us">
-            <img src="c:\Users\Subham Bag\OneDrive\Desktop\New folder (2)\photo2.jpg" alt="Us">
-            <img src="c:\Users\Subham Bag\OneDrive\Desktop\New folder (2)\photo3.jpg" alt="Us">
+            <img src="photo1.jpg.jpg" alt="Us">
+            <img src="photo2.jpg.jpg" alt="Us">
+            <img src="photo3.jpg.jpg" alt="Us">
         </div>
-
         <h1>Hey Risha ❤️</h1>
-
         <div class="memory-lane">
-            <strong>Memory Lane 🕰️</strong><br>
-            29 December—the day we first met. I am so grateful for meeting you, my love.
+            <strong>29 December 🕰️</strong><br>
+            The day we first met. I am so grateful for meeting you, my love. Even miles apart, you're the only one for me.
         </div>
-
         <p>Will you be my Valentine forever? 🌸</p>
-
         <div class="btn-container">
             <button id="yesBtn">Yes! 💍</button>
             <button id="noBtn">No 🙈</button>
         </div>
     </div>
-
+    
     <audio id="bgMusic" loop>
-        <source src="c:\Users\Subham Bag\OneDrive\Desktop\New folder (2)\melody.mp3.mp3" type="audio/mpeg">
+        <source src="melody.mp3.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -126,55 +52,42 @@
         const card = document.getElementById('main-card');
         const music = document.getElementById('bgMusic');
 
-        // Function to move button
-        function moveNoButton() {
+        function moveButton() {
             const maxX = window.innerWidth - noBtn.offsetWidth - 20;
             const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
-            
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
             noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
         }
 
-        // Works for Mouse (PC) and Touch (Phone)
-        noBtn.addEventListener('mouseover', moveNoButton);
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevents the actual click
-            moveNoButton();
-        });
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
+        noBtn.addEventListener('mouseover', moveButton);
 
         yesBtn.addEventListener('click', () => {
-            music.play();
-            
+            music.play().catch(e => console.log("Music play blocked"));
             card.innerHTML = `
                 <h1 class="sparkle-text">Love you Malkin ji! ❤️</h1>
                 <p>You just made me the happiest person alive, Risha!</p>
-                <p>I promise to keep annoying you and choosing you every single day.</p>
-                <div style="margin-top: 20px;">Forever yours, <br><strong>Shubham</strong> ✨</div>
+                <p>I promise to keep choosing you every single day.</p>
+                <div style="margin-top: 20px;">Forever yours,<br><strong>Shubham</strong> ✨</div>
             `;
-            
             document.body.style.backgroundColor = "#ffb3c1";
             noBtn.style.display = 'none';
-            
-            // Trigger hearts
-            for(let i=0; i<50; i++) {
-                setTimeout(createHeart, i * 100);
-            }
+            for(let i=0; i<50; i++) { setTimeout(createHeart, i * 150); }
         });
 
         function createHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart';
-            heart.innerHTML = ['❤️','💖','✨','🌸'][Math.floor(Math.random()*4)];
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
+            const h = document.createElement('div');
+            h.className = 'floating-heart';
+            h.innerHTML = ['❤️','💖','✨','🌸'][Math.floor(Math.random()*4)];
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            h.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
         }
     </script>
 </body>
 </html>
-
