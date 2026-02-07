@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #ff4d6d; --bg: #fff0f3; }
-        body { background-color: var(--bg); font-family: 'Poppins', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; touch-action: manipulation; }
-        #main-card { background: white; width: 85%; max-width: 350px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; z-index: 10; position: relative; }
+        body { background-color: var(--bg); font-family: 'Poppins', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; touch-action: manipulation; transition: background-color 1s; }
+        #main-card { background: white; width: 85%; max-width: 350px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; z-index: 10; position: relative; max-height: 90vh; overflow-y: auto; }
         .photo-grid { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
         .photo-grid img { width: 75px; height: 75px; object-fit: cover; border-radius: 12px; border: 2px solid var(--primary); }
         h1 { font-family: 'Dancing Script', cursive; color: var(--primary); margin: 10px 0; font-size: 2.2rem; }
@@ -17,170 +17,152 @@
         button { padding: 12px 28px; border: none; border-radius: 25px; font-size: 1rem; cursor: pointer; font-weight: bold; transition: 0.2s; }
         #yesBtn { background-color: var(--primary); color: white; z-index: 10; }
         #noBtn { background-color: #fb6f92; color: white; position: absolute; z-index: 100; }
-        .sparkle-text { animation: glow 1.5s infinite alternate; font-size: 1.8rem !important; }
+        .challenge-btn { background-color: #ff85a1; color: white; margin-top: 15px; width: 100%; }
+        .sparkle-text { animation: glow 1.5s infinite alternate; font-size: 1.8rem !important; margin-bottom: 5px; }
         @keyframes glow { from { text-shadow: 0 0 5px #fff, 0 0 10px var(--primary); } to { text-shadow: 0 0 20px #fff, 0 0 30px #ff85a1; } }
         .floating-heart { position: fixed; bottom: -10px; animation: floatUp linear forwards; z-index: 1000; pointer-events: none; }
         @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; } }
+        #puzzle-board { display: none; grid-template-columns: repeat(4, 1fr); gap: 2px; width: 260px; margin: 15px auto; background: #ff4d6d; border: 2px solid #ff4d6d; touch-action: none; }
     </style>
 </head>
 <body>
     <div id="main-card">
-        <div class="photo-grid">
-            <img src="photo1.jpg" alt="Us">
-            <img src="photo2.jpg" alt="Us">
-            <img src="photo3.jpg" alt="Us">
-        </div>
-        <h1>Hey Risha ❤️</h1>
-        <div class="memory-lane">
-            <strong>29 December 🕰️</strong><br>
-            The day we first met. I am so grateful for meeting you, my love. Even miles apart, you're the only one for me.
-        </div>
-        <p>Will you be my Valentine forever? 🌸</p>
-        <div class="btn-container">
-            <button id="yesBtn">Yes! 💍</button>
-            <button id="noBtn">No 🙈</button>
+        <div id="content-box">
+            <div class="photo-grid">
+                <img src="photo1.jpg" alt="Us">
+                <img src="photo2.jpg" alt="Us">
+                <img src="photo3.jpg" alt="Us">
+            </div>
+            <h1>Hey Risha ❤️</h1>
+            <div class="memory-lane">
+                <strong>29 December 🕰️</strong><br>
+                The day we first met. I am so grateful for meeting you, my love. Even miles apart, you're the only one for me.
+            </div>
+            <p>Will you be my Valentine forever? 🌸</p>
+            <div class="btn-container">
+                <button id="yesBtn">Yes! 💍</button>
+                <button id="noBtn">No 🙈</button>
+            </div>
         </div>
     </div>
     
-    <audio id="bgMusic" loop>
-        <source src="melody.mp3.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bgMusic" loop><source src="melody.mp3.mp3" type="audio/mpeg"></audio>
 
     <script>
         const noBtn = document.getElementById('noBtn');
-const yesBtn = document.getElementById('yesBtn');
-const card = document.getElementById('main-card');
-const music = document.getElementById('bgMusic');
+        const yesBtn = document.getElementById('yesBtn');
+        const contentBox = document.getElementById('content-box');
+        const music = document.getElementById('bgMusic');
 
-function moveButton() {
-    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-    noBtn.style.left = Math.random() * maxX + 'px';
-    noBtn.style.top = Math.random() * maxY + 'px';
-    noBtn.style.position = 'fixed';
-}
-
-noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
-noBtn.addEventListener('mouseover', moveButton);
-
-yesBtn.addEventListener('click', () => {
-    music.play().catch(e => console.log("Music blocked"));
-    
-    // Updated layout for 4x4 Puzzle
-    card.innerHTML = `
-        <h1 class="sparkle-text">Love you Malkin ji! ❤️</h1>
-        <p style="font-weight:bold; color:#ff4d6d;">The Mid-Level Challenge 🧩</p>
-        <p style="font-size: 0.8rem; margin-bottom:10px;">Tap two tiles to swap them. Solve it for your reward!</p>
-        
-        <div id="puzzle-board" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; width: 280px; margin: 0 auto; background: #ff4d6d; border: 2px solid #ff4d6d;"></div>
-        
-        <div id="win-message" style="display:none; margin-top:15px; background:#fff0f3; padding:10px; border-radius:10px; border: 2px dashed #ff4d6d;">
-            <p style="color: #ff4d6d; font-weight: bold; margin:0;">🎉 MISSION ACCOMPLISHED!</p>
-            <p style="font-size:0.85rem; margin:5px 0 0;">Check your DM now for the things I love most about you!</p>
-        </div>
-    `;
-
-    document.body.style.backgroundColor = "#ffb3c1";
-    noBtn.style.display = 'none';
-    for(let i=0; i<30; i++) { setTimeout(createHeart, i * 150); }
-    
-    startPuzzle();
-});
-
-function startPuzzle() {
-    const board = document.getElementById('puzzle-board');
-    const imageSrc = 'risha-puzzle.jpg'; // Change this to your exact filename
-    const size = 4; // 4x4 grid
-    const totalTiles = size * size;
-    const tileSize = 280 / size; // Fits into the 280px board
-    
-    // Create an array of 0-15 and shuffle it
-    let tilePositions = Array.from({length: totalTiles}, (_, i) => i);
-    tilePositions = tilePositions.sort(() => Math.random() - 0.5);
-
-    tilePositions.forEach((posIndex) => {
-        const tile = document.createElement('div');
-        tile.style.width = `${tileSize}px`;
-        tile.style.height = `${tileSize}px`;
-        tile.style.background = `url(${imageSrc})`;
-        tile.style.backgroundSize = '280px 280px';
-        
-        // Original position (where this slice belongs)
-        const row = Math.floor(posIndex / size);
-        const col = posIndex % size;
-        tile.style.backgroundPosition = `-${col * tileSize}px -${row * tileSize}px`;
-        
-        tile.setAttribute('data-correct-pos', posIndex);
-        tile.addEventListener('click', () => handleTileClick(tile));
-        board.appendChild(tile);
-    });
-}
-
-let firstTile = null;
-
-function handleTileClick(clickedTile) {
-    if (!firstTile) {
-        firstTile = clickedTile;
-        firstTile.style.outline = "3px solid white";
-        firstTile.style.zIndex = "10";
-    } else {
-        // Swap Background Positions
-        const tempBP = firstTile.style.backgroundPosition;
-        firstTile.style.backgroundPosition = clickedTile.style.backgroundPosition;
-        clickedTile.style.backgroundPosition = tempBP;
-
-        // Swap Data Attributes (to track if it's correct)
-        const tempPos = firstTile.getAttribute('data-correct-pos');
-        firstTile.setAttribute('data-correct-pos', clickedTile.getAttribute('data-correct-pos'));
-        clickedTile.setAttribute('data-correct-pos', tempPos);
-
-        firstTile.style.outline = "none";
-        firstTile = null;
-        
-        checkWin();
-    }
-}
-
-function checkWin() {
-    const tiles = document.querySelectorAll('#puzzle-board div');
-    const size = 4;
-    const tileSize = 280 / size;
-    let win = true;
-
-    tiles.forEach((tile, i) => {
-        const row = Math.floor(i / size);
-        const col = i % size;
-        const expectedBP = `-${col * tileSize}px -${row * tileSize}px`;
-        
-        if (tile.style.backgroundPosition !== expectedBP) {
-            win = false;
+        function moveButton() {
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            noBtn.style.left = Math.random() * maxX + 'px';
+            noBtn.style.top = Math.random() * maxY + 'px';
+            noBtn.style.position = 'fixed';
         }
-    });
 
-    if (win) {
-        document.getElementById('win-message').style.display = 'block';
-        document.getElementById('puzzle-board').style.pointerEvents = 'none';
-        document.getElementById('puzzle-board').style.border = '2px solid #4CAF50';
-    }
-}
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
+        noBtn.addEventListener('mouseover', moveButton);
 
-function createHeart() {
-    const h = document.createElement('div');
-    h.className = 'floating-heart';
-    h.innerHTML = ['❤️','💖','✨','🌸'][Math.floor(Math.random()*4)];
-    h.style.left = Math.random() * 100 + 'vw';
-    h.style.fontSize = '25px';
-    h.style.animationDuration = (Math.random() * 3 + 2) + 's';
-    document.body.appendChild(h);
-    setTimeout(() => h.remove(), 5000);
-}
+        yesBtn.addEventListener('click', () => {
+            music.play().catch(e => console.log("Music blocked"));
+            document.body.style.backgroundColor = "#ffb3c1";
+            noBtn.style.display = 'none';
+            
+            // Show the "Love you Malkin ji" message FIRST
+            contentBox.innerHTML = `
+                <h1 class="sparkle-text">Love you Malkin ji! ❤️</h1>
+                <p>You just made me the happiest person alive, Risha!</p>
+                <p style="font-style: italic; font-size: 0.9rem;">"I promise to keep annoying you and choosing you every single day."</p>
+                <div style="margin: 15px 0;">Forever yours,<br><strong>Shubham</strong> ✨</div>
+                <button id="startChallenge" class="challenge-btn">Accept My Challenge 🧩</button>
+                <div id="puzzle-area" style="display:none;">
+                    <p style="font-size: 0.8rem; margin: 10px 0; color: #ff4d6d;"><b>Tap two tiles to swap them.</b> If you solve it, I will tell you reasons why I love you most in DM!</p>
+                    <div id="puzzle-board"></div>
+                    <div id="win-message" style="display:none; padding:10px; background:#fff0f3; border-radius:10px; border:2px dashed #ff4d6d;">
+                        <p style="color: #ff4d6d; font-weight: bold; margin:0;">🎉 MISSION ACCOMPLISHED!</p>
+                        <p style="font-size:0.8rem;">Now go to DM and claim your reward! 🎁</p>
+                    </div>
+                </div>
+            `;
+            
+            // Start heart animation
+            for(let i=0; i<40; i++) { setTimeout(createHeart, i * 150); }
+
+            document.getElementById('startChallenge').addEventListener('click', function() {
+                this.style.display = 'none';
+                document.getElementById('puzzle-area').style.display = 'block';
+                document.getElementById('puzzle-board').style.display = 'grid';
+                startPuzzle();
+            });
+        });
+
+        function startPuzzle() {
+            const board = document.getElementById('puzzle-board');
+            const imageSrc = 'risha-puzzle.jpg'; // Verify this name on GitHub
+            const size = 4;
+            const tileSize = 260 / size;
+            let tilePositions = Array.from({length: 16}, (_, i) => i);
+            tilePositions = tilePositions.sort(() => Math.random() - 0.5);
+
+            tilePositions.forEach((posIndex) => {
+                const tile = document.createElement('div');
+                tile.style.width = `${tileSize}px`;
+                tile.style.height = `${tileSize}px`;
+                tile.style.background = `url(${imageSrc})`;
+                tile.style.backgroundSize = '260px 260px';
+                const row = Math.floor(posIndex / size);
+                const col = posIndex % size;
+                tile.style.backgroundPosition = `-${col * tileSize}px -${row * tileSize}px`;
+                tile.addEventListener('click', () => handleTileClick(tile));
+                board.appendChild(tile);
+            });
+        }
+
+        let firstTile = null;
+        function handleTileClick(clickedTile) {
+            if (!firstTile) {
+                firstTile = clickedTile;
+                firstTile.style.outline = "3px solid white";
+                firstTile.style.zIndex = "10";
+            } else {
+                const tempBP = firstTile.style.backgroundPosition;
+                firstTile.style.backgroundPosition = clickedTile.style.backgroundPosition;
+                clickedTile.style.backgroundPosition = tempBP;
+                firstTile.style.outline = "none";
+                firstTile = null;
+                checkWin();
+            }
+        }
+
+        function checkWin() {
+            const tiles = document.querySelectorAll('#puzzle-board div');
+            const tileSize = 260 / 4;
+            let win = true;
+            tiles.forEach((tile, i) => {
+                const row = Math.floor(i / 4);
+                const col = i % 4;
+                const expectedBP = `-${col * tileSize}px -${row * tileSize}px`;
+                if (tile.style.backgroundPosition !== expectedBP) win = false;
+            });
+            if (win) {
+                document.getElementById('win-message').style.display = 'block';
+                document.getElementById('puzzle-board').style.pointerEvents = 'none';
+                document.getElementById('puzzle-board').style.border = '2px solid #4CAF50';
+            }
+        }
+
+        function createHeart() {
+            const h = document.createElement('div');
+            h.className = 'floating-heart';
+            h.innerHTML = ['❤️','💖','✨','🌸'][Math.floor(Math.random()*4)];
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = '25px';
+            h.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
+        }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
