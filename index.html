@@ -48,49 +48,136 @@
 
     <script>
         const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
-        const card = document.getElementById('main-card');
-        const music = document.getElementById('bgMusic');
+const yesBtn = document.getElementById('yesBtn');
+const card = document.getElementById('main-card');
+const music = document.getElementById('bgMusic');
 
-        function moveButton() {
-            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-            const x = Math.random() * maxX;
-            const y = Math.random() * maxY;
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
-            noBtn.style.position = 'fixed';
+function moveButton() {
+    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+    noBtn.style.left = Math.random() * maxX + 'px';
+    noBtn.style.top = Math.random() * maxY + 'px';
+    noBtn.style.position = 'fixed';
+}
+
+noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
+noBtn.addEventListener('mouseover', moveButton);
+
+yesBtn.addEventListener('click', () => {
+    music.play().catch(e => console.log("Music blocked"));
+    
+    // Updated layout for 4x4 Puzzle
+    card.innerHTML = `
+        <h1 class="sparkle-text">Love you Malkin ji! ❤️</h1>
+        <p style="font-weight:bold; color:#ff4d6d;">The Mid-Level Challenge 🧩</p>
+        <p style="font-size: 0.8rem; margin-bottom:10px;">Tap two tiles to swap them. Solve it for your reward!</p>
+        
+        <div id="puzzle-board" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; width: 280px; margin: 0 auto; background: #ff4d6d; border: 2px solid #ff4d6d;"></div>
+        
+        <div id="win-message" style="display:none; margin-top:15px; background:#fff0f3; padding:10px; border-radius:10px; border: 2px dashed #ff4d6d;">
+            <p style="color: #ff4d6d; font-weight: bold; margin:0;">🎉 MISSION ACCOMPLISHED!</p>
+            <p style="font-size:0.85rem; margin:5px 0 0;">Check your DM now for the things I love most about you!</p>
+        </div>
+    `;
+
+    document.body.style.backgroundColor = "#ffb3c1";
+    noBtn.style.display = 'none';
+    for(let i=0; i<30; i++) { setTimeout(createHeart, i * 150); }
+    
+    startPuzzle();
+});
+
+function startPuzzle() {
+    const board = document.getElementById('puzzle-board');
+    const imageSrc = 'risha-puzzle.jpg'; // Change this to your exact filename
+    const size = 4; // 4x4 grid
+    const totalTiles = size * size;
+    const tileSize = 280 / size; // Fits into the 280px board
+    
+    // Create an array of 0-15 and shuffle it
+    let tilePositions = Array.from({length: totalTiles}, (_, i) => i);
+    tilePositions = tilePositions.sort(() => Math.random() - 0.5);
+
+    tilePositions.forEach((posIndex) => {
+        const tile = document.createElement('div');
+        tile.style.width = `${tileSize}px`;
+        tile.style.height = `${tileSize}px`;
+        tile.style.background = `url(${imageSrc})`;
+        tile.style.backgroundSize = '280px 280px';
+        
+        // Original position (where this slice belongs)
+        const row = Math.floor(posIndex / size);
+        const col = posIndex % size;
+        tile.style.backgroundPosition = `-${col * tileSize}px -${row * tileSize}px`;
+        
+        tile.setAttribute('data-correct-pos', posIndex);
+        tile.addEventListener('click', () => handleTileClick(tile));
+        board.appendChild(tile);
+    });
+}
+
+let firstTile = null;
+
+function handleTileClick(clickedTile) {
+    if (!firstTile) {
+        firstTile = clickedTile;
+        firstTile.style.outline = "3px solid white";
+        firstTile.style.zIndex = "10";
+    } else {
+        // Swap Background Positions
+        const tempBP = firstTile.style.backgroundPosition;
+        firstTile.style.backgroundPosition = clickedTile.style.backgroundPosition;
+        clickedTile.style.backgroundPosition = tempBP;
+
+        // Swap Data Attributes (to track if it's correct)
+        const tempPos = firstTile.getAttribute('data-correct-pos');
+        firstTile.setAttribute('data-correct-pos', clickedTile.getAttribute('data-correct-pos'));
+        clickedTile.setAttribute('data-correct-pos', tempPos);
+
+        firstTile.style.outline = "none";
+        firstTile = null;
+        
+        checkWin();
+    }
+}
+
+function checkWin() {
+    const tiles = document.querySelectorAll('#puzzle-board div');
+    const size = 4;
+    const tileSize = 280 / size;
+    let win = true;
+
+    tiles.forEach((tile, i) => {
+        const row = Math.floor(i / size);
+        const col = i % size;
+        const expectedBP = `-${col * tileSize}px -${row * tileSize}px`;
+        
+        if (tile.style.backgroundPosition !== expectedBP) {
+            win = false;
         }
+    });
 
-        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
-        noBtn.addEventListener('mouseover', moveButton);
+    if (win) {
+        document.getElementById('win-message').style.display = 'block';
+        document.getElementById('puzzle-board').style.pointerEvents = 'none';
+        document.getElementById('puzzle-board').style.border = '2px solid #4CAF50';
+    }
+}
 
-        yesBtn.addEventListener('click', () => {
-            music.play().catch(e => console.log("Music play blocked"));
-            card.innerHTML = `
-                <h1 class="sparkle-text">Love you Malkin ji! ❤️</h1>
-                <p>You just made me the happiest person alive, Risha!</p>
-                <p>I promise to keep choosing you every single day.</p>
-                <div style="margin-top: 20px;">Forever yours,<br><strong>Shubham</strong> ✨</div>
-            `;
-            document.body.style.backgroundColor = "#ffb3c1";
-            noBtn.style.display = 'none';
-            for(let i=0; i<50; i++) { setTimeout(createHeart, i * 150); }
-        });
-
-        function createHeart() {
-            const h = document.createElement('div');
-            h.className = 'floating-heart';
-            h.innerHTML = ['❤️','💖','✨','🌸'][Math.floor(Math.random()*4)];
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = (Math.random() * 20 + 20) + 'px';
-            h.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 5000);
-        }
+function createHeart() {
+    const h = document.createElement('div');
+    h.className = 'floating-heart';
+    h.innerHTML = ['❤️','💖','✨','🌸'][Math.floor(Math.random()*4)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = '25px';
+    h.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 5000);
+}
     </script>
 </body>
 </html>
+
 
 
 
