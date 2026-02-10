@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For My Risha ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #ff4d6d; --bg: #fff0f3; }
         body { background-color: var(--bg); font-family: 'Poppins', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; touch-action: manipulation; transition: background-color 1s; }
@@ -27,6 +28,20 @@
 </head>
 <body>
     <div id="main-card">
+        <div id="secret-heart" style="position: absolute; top: 10px; right: 15px; font-size: 1.2rem; cursor: pointer; opacity: 0.5;">❤️</div>
+
+<div id="letter-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center;">
+    <div style="background: #fdf5e6; width: 85%; max-width: 400px; padding: 30px; border-radius: 5px; font-family: 'Great Vibes', cursive; font-size: 1.4rem; color: #333; position: relative;">
+        <span id="close-letter" style="position: absolute; top: 10px; right: 10px; cursor: pointer; font-family: sans-serif;">✖</span>
+        <p>My Dearest Risha,</p>
+        <p>The moment I first saw you, I fell completely in love. Your cheerfulness makes me laugh, and with every smile, I find myself falling deeper—like sinking into the beautiful gravity of a black hole, and your eyes are the center of it all.</p>
+        <p>Madam ji, I am so sorry for the times my stupidity caused you pain. Instead of understanding you, I let my love turn into rage and said words your Shubo should never have spoken. It hurts me that I did that to you.</p>
+        <p>I am so grateful to God that we are okay and that you accepted me back. Thank you for being by my side. You are my everything.</p>
+        <p style="text-align:right;">Forever Yours,<br>Shubham</p>
+    </div>
+</div>
+
+<audio id="secretMusic" loop><source src="secret-song.mp3" type="audio/mpeg"></audio>
         <div id="content-box">
             <div class="photo-grid">
                 <img src="photo1.jpg" alt="Us">
@@ -182,9 +197,27 @@ function createHeart() {
     h.style.animationDuration = (Math.random() * 3 + 2) + 's';
     document.body.appendChild(h);
     setTimeout(() => h.remove(), 5000);
-}
+}const secretMusic = document.getElementById('secretMusic');
+const secretHeart = document.getElementById('secret-heart');
+const letterOverlay = document.getElementById('letter-overlay');
+const closeLetter = document.getElementById('close-letter');
+
+// When she clicks the tiny heart
+secretHeart.addEventListener('click', () => {
+    music.pause(); // Stops melody.mp3
+    secretMusic.play(); // Starts secret-song.mp3
+    letterOverlay.style.display = 'flex';
+});
+
+// When she closes the letter
+closeLetter.addEventListener('click', () => {
+    letterOverlay.style.display = 'none';
+    secretMusic.pause();
+    music.play();
+});
     </script>
 </body>
 </html>
+
 
 
