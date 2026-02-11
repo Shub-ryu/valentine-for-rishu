@@ -7,8 +7,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #ff4d6d; --bg: #fff0f3; }
-        body { background-color: var(--bg); font-family: 'Poppins', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; touch-action: manipulation; transition: background-color 1s; }
+       :root { --primary: #ff4d6d; --bg: #2c3e50; --stone: #d7d2cc; }
+        body { 
+    background-color: var(--bg); 
+    background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+    background-size: 40px 40px;
+    font-family: 'Poppins', sans-serif; 
+    margin: 0; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh; 
+    overflow-x: hidden; 
+    touch-action: manipulation; 
+    transition: background-color 1s; 
+}
         #main-card { background: white; width: 85%; max-width: 350px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; z-index: 10; position: relative; max-height: 90vh; overflow-y: auto; }
         .photo-grid { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
         .photo-grid img { width: 75px; height: 75px; object-fit: cover; border-radius: 12px; border: 2px solid var(--primary); }
@@ -113,9 +126,15 @@ yesBtn.addEventListener('click', () => {
         <p style="font-style: italic; font-size: 0.9rem;">"I promise to keep annoying you and choosing you every single day."</p>
         <div style="margin: 15px 0;">Forever yours,<br><strong>Shubham</strong> ✨</div>
         <button id="startChallenge" class="challenge-btn">Accept My Challenge 🧩</button>
-        <div id="puzzle-area" style="display:none;">
+        
+        <div id="puzzle-area" style="display:none; margin-top:15px;">
             <p style="font-size: 0.8rem; margin: 10px 0; color: #ff4d6d;"><b>Tap two tiles to swap them.</b> If you solve it, I will tell you reasons why I love you most in DM!</p>
             <div id="puzzle-board"></div>
+            
+            <p style="font-size: 0.75rem; color: #8b4513; margin-top: 15px; font-style: italic; border-top: 1px solid #eee; padding-top: 10px;">
+                "Find the secret gateway... Hint: Remember what I said."
+            </p>
+
             <div id="win-message" style="display:none; padding:10px; background:#fff0f3; border-radius:10px; border:2px dashed #ff4d6d;">
                 <p style="color: #ff4d6d; font-weight: bold; margin:0;">🎉 MISSION ACCOMPLISHED!</p>
                 <p style="font-size:0.8rem;">Now go to DM and claim your reward! 🎁</p>
@@ -123,6 +142,7 @@ yesBtn.addEventListener('click', () => {
         </div>
     `;
     
+    // Start heart animation
     for(let i=0; i<40; i++) { setTimeout(createHeart, i * 150); }
 
     document.getElementById('startChallenge').addEventListener('click', function() {
@@ -132,6 +152,7 @@ yesBtn.addEventListener('click', () => {
         startPuzzle();
     });
 });
+    
 
 function startPuzzle() {
     const board = document.getElementById('puzzle-board');
@@ -218,6 +239,7 @@ closeLetter.addEventListener('click', () => {
     </script>
 </body>
 </html>
+
 
 
 
